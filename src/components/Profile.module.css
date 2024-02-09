@@ -1,0 +1,54 @@
+.profile {
+  border: 3px solid black;
+  border-radius: 20px;
+  width: 600px;
+  height: 676px;
+  font-size: 36px;
+  font-weight: 400;
+  padding-top: 60px;
+}
+.ul {
+  display: flex;
+  width: 600px;
+  padding: 0px 0px 0px 0px;
+  margin: 0px;
+  border-top: 3px solid gray;
+  background-color: lightgray;
+  border-bottom-left-radius: 17px;
+  border-bottom-right-radius: 17px;
+}
+
+.ul li {
+    padding-top: 10px;
+  display: block;
+  flex-direction: row;
+  align-items: center;
+  width: 200px;
+}
+.views {
+  border-right: 3px solid gray;
+  border-left: 3px solid gray;
+  height: 130px;
+}
+
+.bild {
+  width: 200px;
+  height: 200px;
+  border-radius: 150px;
+  background-color: black;
+}
+.info {
+  color: grey;
+}
+.span {
+  display: block;
+  flex-direction: row;
+  align-items: center;
+}
+.stat {
+    font-weight: 700;
+}
+.name {
+    font-size: 40px;
+    font-weight: 700;
+}
