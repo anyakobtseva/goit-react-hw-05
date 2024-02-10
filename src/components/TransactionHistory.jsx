@@ -1,8 +1,8 @@
-import "./Transaction.css"
+import css from "./Transaction.module.css";
 export default function TransactionHistory(props) {
   const transactions = [];
 
-  props.items.forEach(item => {
+  props.items.forEach((item) => {
     transactions.push(
       <tr key={item.id}>
         <td>{item.type}</td>
@@ -13,7 +13,7 @@ export default function TransactionHistory(props) {
   });
 
   return (
-    <table>
+    <table className={css.table}>
       <thead>
         <tr>
           <th>Type</th>
@@ -21,7 +21,6 @@ export default function TransactionHistory(props) {
           <th>Currency</th>
         </tr>
       </thead>
-
       <tbody>{transactions}</tbody>
     </table>
   );

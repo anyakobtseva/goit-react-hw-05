@@ -20,12 +20,12 @@
     font-weight: 400;
 }
 .online {
-   color: red;
+   color: green;
    margin: 0px;
    font-size: 20px;
 }
 .offline {
-    color: green;
+    color: red;
     margin: 0px;
     font-size: 20px;
 }
