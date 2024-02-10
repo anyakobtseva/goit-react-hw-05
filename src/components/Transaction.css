@@ -1,0 +1,16 @@
+table {
+    display: inline-table;
+    width: 600px;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+th {
+    background-color: black;
+    color: white; 
+}
+td {
+    border: 1px solid black;
+}
+tr:nth-child(even) {
+    background-color: lightgray;
+}
