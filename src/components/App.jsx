@@ -17,6 +17,10 @@ const App = () => {
     return JSON.parse(window.localStorage.getItem("feedback")) || feedback;
   });
 
+  const [totalFeedback, setTotalFeedback] = useState(() => {
+    return obj.good + obj.neutral + obj.bad;
+  })
+
   useEffect(() => {
     window.localStorage.setItem("feedback", JSON.stringify(obj));
   }, [obj]);
@@ -24,19 +28,26 @@ const App = () => {
   const updateFeedback = (key) => {
     setObj({
       ...obj,
-      [key]: obj[key] + 1
+      [key]: obj[key] + 1,
     });
+
+    setTotalFeedback(totalFeedback + 1);
   };
 
   const reset = () => {
     setObj(feedback);
-  }
+    setTotalFeedback(0);
+  };
 
   return (
     <>
       <Description />
-      <Options updateFeedback={updateFeedback} reset={reset}/>
-      {(obj['good'] + obj['neutral'] + obj['bad'] == 0) ? <Notification /> : <Feedback feedback={obj}/>}
+      <Options updateFeedback={updateFeedback} reset={reset} totalFeedback={totalFeedback}/>
+      {totalFeedback === 0 ? (
+        <Notification />
+      ) : (
+        <Feedback feedback={obj} />
+      )}
     </>
   );
 };
