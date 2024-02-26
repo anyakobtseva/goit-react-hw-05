@@ -1,53 +1,48 @@
 import { useState, useEffect } from "react";
-
 import "./App.css";
-import Options from "./Options";
-import Feedback from "./Feedback";
-import Notification from "./Notification";
-import Description from "./Description";
-
-const feedback = {
-  good: 0,
-  neutral: 0,
-  bad: 0,
-};
+import ContactList from "./ContactList";
+import ContactForm from "./ContactForm";
+import SearchBox from "./SearchBox";
+import inititalContacts from "../contacts.json";
 
 const App = () => {
-  const [obj, setObj] = useState(() => {
-    return JSON.parse(window.localStorage.getItem("feedback")) || feedback;
+  const [filteredContacts, setFilteredContacts] = useState(inititalContacts);
+
+  const [contacts, setContacts] = useState(() => {
+    return (
+      JSON.parse(window.localStorage.getItem("contacts")) || inititalContacts
+    );
   });
 
-  const [totalFeedback, setTotalFeedback] = useState(() => {
-    return obj.good + obj.neutral + obj.bad;
-  })
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    window.localStorage.setItem("feedback", JSON.stringify(obj));
-  }, [obj]);
+    window.localStorage.setItem("contacts", JSON.stringify(contacts));
+    setFilteredContacts(contacts);
+  }, [contacts]);
 
-  const updateFeedback = (key) => {
-    setObj({
-      ...obj,
-      [key]: obj[key] + 1,
-    });
-
-    setTotalFeedback(totalFeedback + 1);
+  const addContact = (newContact, actions) => {
+    setContacts((prevContacts) => [...prevContacts, newContact]);
+    actions.resetForm();
   };
 
-  const reset = () => {
-    setObj(feedback);
-    setTotalFeedback(0);
-  };
+  const filterContacts = (evt) => {
+    setSearchValue(evt.target.value);
+    setFilteredContacts(contacts.filter(contact => contact.name && contact.name.toLowerCase().startsWith(evt.target.value.toLowerCase())));
+  }
+
+  const deleteContact = (contactId) => {
+    setContacts((prevContacts) => prevContacts.filter(contact => contact.id && contact.id !== contactId));
+  }
 
   return (
     <>
-      <Description />
-      <Options updateFeedback={updateFeedback} reset={reset} totalFeedback={totalFeedback}/>
-      {totalFeedback === 0 ? (
-        <Notification />
-      ) : (
-        <Feedback feedback={obj} />
-      )}
+      <div>
+        <h1>Phonebook</h1>
+        <ContactForm onSubmit={addContact} />
+        <SearchBox filter={filterContacts} searchValue={searchValue}/>
+        <ContactList contacts={filteredContacts} deleteContact={deleteContact}/>
+      </div>
     </>
   );
 };
