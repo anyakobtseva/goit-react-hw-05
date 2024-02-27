@@ -1,0 +1,10 @@
+.search {
+  margin: 10px;
+}
+.noMargin {
+  margin: 0px;
+  padding-bottom: 0px;
+}
+input {
+  width: 210px;
+}

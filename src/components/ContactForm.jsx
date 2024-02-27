@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useId } from "react";
 import { nanoid } from "nanoid";
+import * as css from "./ContactForm.module.css";
 
 const ContactForm = ({ onSubmit }) => {
   const nameFieldId = useId();
@@ -32,18 +33,34 @@ const ContactForm = ({ onSubmit }) => {
         )
       }
     >
-      <Form>
-        <div>
+      <Form className={css.wind}>
+        <div className={css.form}>
+          <h2 className={css.name}>Name</h2>
           <label htmlFor={nameFieldId}></label>
-          <Field type="text" name="username" id={nameFieldId}></Field>
+          <Field
+            className={css.field}
+            type="text"
+            name="username"
+            id={nameFieldId}
+          ></Field>
           <ErrorMessage name="username" as="span"></ErrorMessage>
         </div>
-        <div>
+        <div className={css.form}>
+          <h2 className={css.name}>Number</h2>
           <label htmlFor={numberFieldId}></label>
-          <Field type="text" name="number" id={numberFieldId}></Field>
+          <Field
+            className={css.field}
+            type="text"
+            name="number"
+            id={numberFieldId}
+          ></Field>
           <ErrorMessage name="number" as="span"></ErrorMessage>
         </div>
-        <button type="submit">Add contact</button>
+        <div className={css.form}>
+          <button className={css.btnadd} type="submit">
+            Add contact
+          </button>
+        </div>
       </Form>
     </Formik>
   );

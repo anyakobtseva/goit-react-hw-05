@@ -28,22 +28,28 @@ const App = () => {
 
   const filterContacts = (evt) => {
     setSearchValue(evt.target.value);
-    setFilteredContacts(contacts.filter(contact => contact.name && contact.name.toLowerCase().startsWith(evt.target.value.toLowerCase())));
-  }
+    setFilteredContacts(
+      contacts.filter(
+        (contact) =>
+          contact.name &&
+          contact.name.toLowerCase().startsWith(evt.target.value.toLowerCase())
+      )
+    );
+  };
 
   const deleteContact = (contactId) => {
-    setContacts((prevContacts) => prevContacts.filter(contact => contact.id && contact.id !== contactId));
-  }
+    setContacts((prevContacts) =>
+      prevContacts.filter((contact) => contact.id && contact.id !== contactId)
+    );
+  };
 
   return (
-    <>
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={addContact} />
-        <SearchBox filter={filterContacts} searchValue={searchValue}/>
-        <ContactList contacts={filteredContacts} deleteContact={deleteContact}/>
-      </div>
-    </>
+    <div>
+      <h1 style={{ marginLeft: "10px" }}>Phonebook</h1>
+      <ContactForm onSubmit={addContact} />
+      <SearchBox filter={filterContacts} searchValue={searchValue} />
+      <ContactList contacts={filteredContacts} deleteContact={deleteContact} />
+    </div>
   );
 };
 

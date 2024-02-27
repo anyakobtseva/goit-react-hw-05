@@ -1,9 +1,10 @@
 import Contact from "./Contact";
+import * as css from "./ContactList.module.css";
 
 const ContactList = ({ contacts, deleteContact }) => {
   return (
     <>
-      <ul>
+      <ul className={css.ul}>
         {contacts.map((contact) => (
           <Contact
             name={contact.name}
