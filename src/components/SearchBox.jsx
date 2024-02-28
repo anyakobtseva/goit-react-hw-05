@@ -4,7 +4,11 @@ const SearchBox = ({ value, onChange }) => {
   return (
     <div className={css.search}>
       <p className={css.noMargin}>Find contacts by name</p>
-      <input type="text" value={value} onChange={onChange}></input>
+      <input
+        type="text"
+        value={value}
+        onChange={(evt) => onChange(evt.target.value)}
+      ></input>
     </div>
   );
 };

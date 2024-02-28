@@ -16,23 +16,28 @@ const App = () => {
 
   const [searchValue, setSearchValue] = useState("");
 
+  useEffect(
+    () => window.localStorage.setItem("contacts", JSON.stringify(contacts)),
+    [contacts]
+  );
+
   useEffect(() => {
-    window.localStorage.setItem("contacts", JSON.stringify(contacts));
-    setFilteredContacts(contacts);
-  }, [contacts]);
-
-  const addContact = (newContact) => setContacts((prevContacts) => [...prevContacts, newContact]);
-
-  const filterContacts = (evt) => {
-    setSearchValue(evt.target.value);
     setFilteredContacts(
       contacts.filter(
-        (contact) => 
+        (contact) =>
           contact.name &&
-          contact.name.toLowerCase().split(' ').some(c => c.startsWith(evt.target.value.toLowerCase()))
+          contact.name
+            .toLowerCase()
+            .split(" ")
+            .some((c) => c.startsWith(searchValue.toLowerCase()))
       )
     );
-  };
+  }, [contacts, searchValue]);
+
+  const addContact = (newContact) =>
+    setContacts((prevContacts) => [...prevContacts, newContact]);
+
+  const updateSearchValue = (newValue) => setSearchValue(newValue);
 
   const deleteContact = (contactId) => {
     setContacts((prevContacts) =>
@@ -44,7 +49,7 @@ const App = () => {
     <div>
       <h1 style={{ marginLeft: "10px" }}>Phonebook</h1>
       <ContactForm onSubmit={addContact} />
-      <SearchBox onChange={filterContacts} value={searchValue} />
+      <SearchBox onChange={updateSearchValue} value={searchValue} />
       <ContactList contacts={filteredContacts} deleteContact={deleteContact} />
     </div>
   );
