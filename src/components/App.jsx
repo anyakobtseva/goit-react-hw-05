@@ -21,18 +21,15 @@ const App = () => {
     setFilteredContacts(contacts);
   }, [contacts]);
 
-  const addContact = (newContact, actions) => {
-    setContacts((prevContacts) => [...prevContacts, newContact]);
-    actions.resetForm();
-  };
+  const addContact = (newContact) => setContacts((prevContacts) => [...prevContacts, newContact]);
 
   const filterContacts = (evt) => {
     setSearchValue(evt.target.value);
     setFilteredContacts(
       contacts.filter(
-        (contact) =>
+        (contact) => 
           contact.name &&
-          contact.name.toLowerCase().startsWith(evt.target.value.toLowerCase())
+          contact.name.toLowerCase().split(' ').some(c => c.startsWith(evt.target.value.toLowerCase()))
       )
     );
   };
@@ -47,7 +44,7 @@ const App = () => {
     <div>
       <h1 style={{ marginLeft: "10px" }}>Phonebook</h1>
       <ContactForm onSubmit={addContact} />
-      <SearchBox filter={filterContacts} searchValue={searchValue} />
+      <SearchBox onChange={filterContacts} value={searchValue} />
       <ContactList contacts={filteredContacts} deleteContact={deleteContact} />
     </div>
   );

@@ -9,13 +9,13 @@ const ContactForm = ({ onSubmit }) => {
   const numberFieldId = useId();
   const schema = Yup.object().shape({
     username: Yup.string()
-      .min(3, "Name too short!")
-      .max(50, "Name too long!")
-      .required(),
+      .min(3, <span className={css.error}>Too Short!</span>)
+      .max(50, <span className={css.error}>Too Long!</span>)
+      .required(<span className={css.error}>Required</span>),
     number: Yup.string()
-      .min(3, "Number too short!")
-      .max(50, "Number too long!")
-      .required(),
+      .min(3, <span className={css.error}>Too Short!</span>)
+      .max(20, "Number too long!")
+      .required(<span className={css.error}>Required</span>),
   });
 
   const initialValues = {
@@ -26,12 +26,14 @@ const ContactForm = ({ onSubmit }) => {
     <Formik
       validationSchema={schema}
       initialValues={initialValues}
-      onSubmit={(values, actions) =>
-        onSubmit(
-          { id: nanoid(), name: values.username, number: values.number },
-          actions
-        )
-      }
+      onSubmit={(values, actions) => {
+        onSubmit({
+          id: nanoid(),
+          name: values.username,
+          number: values.number,
+        });
+        actions.resetForm();
+      }}
     >
       <Form className={css.wind}>
         <div className={css.form}>
