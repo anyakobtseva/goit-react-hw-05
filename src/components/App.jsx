@@ -1,57 +1,72 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useMemo } from "react";
+
 import "./App.css";
-import ContactList from "./ContactList";
-import ContactForm from "./ContactForm";
-import SearchBox from "./SearchBox";
-import inititalContacts from "../contacts.json";
+import SearchBar from "./SearchBar";
+import ErrorMessage from "./ErrorMessage";
+import Loader from "./Loader";
+import ImageGallery from "./ImageGallery";
+import toast, { Toaster } from "react-hot-toast";
+
+const API_KEY = import.meta.env.VITE_UNSPLASH_CLIENT_ID;
+
+axios.defaults.baseURL = "https://api.unsplash.com";
 
 const App = () => {
-  const [filteredContacts, setFilteredContacts] = useState(inititalContacts);
+  const [isLodaing, setIsLodaing] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [searchValue, setSerachValue] = useState("");
+  const [images, setImages] = useState([]);
+  const notify = () => toast("Enter non-empty search value");
 
-  const [contacts, setContacts] = useState(() => {
-    return (
-      JSON.parse(window.localStorage.getItem("contacts")) || inititalContacts
-    );
-  });
-
-  const [searchValue, setSearchValue] = useState("");
-
-  useEffect(
-    () => window.localStorage.setItem("contacts", JSON.stringify(contacts)),
-    [contacts]
-  );
-
-  useEffect(() => {
-    setFilteredContacts(
-      contacts.filter(
-        (contact) =>
-          contact.name &&
-          contact.name
-            .toLowerCase()
-            .split(" ")
-            .some((c) => c.startsWith(searchValue.toLowerCase()))
-      )
-    );
-  }, [contacts, searchValue]);
-
-  const addContact = (newContact) =>
-    setContacts((prevContacts) => [...prevContacts, newContact]);
-
-  const updateSearchValue = (newValue) => setSearchValue(newValue);
-
-  const deleteContact = (contactId) => {
-    setContacts((prevContacts) =>
-      prevContacts.filter((contact) => contact.id && contact.id !== contactId)
-    );
+  const handleSumbit = (value) => {
+    (value.length === 0) ? notify() : toast.dismiss();
+    setSerachValue(value);
   };
 
+  useMemo(() => {
+    (async () => {
+      try {
+        if (searchValue.length > 0) {
+          setIsError(false);
+          setImages([]);
+          setIsLodaing(true);
+          const result = await axios.get("/search/photos", {
+            headers: {
+              Authorization: `Client-ID ${API_KEY}`,
+            },
+            params: { page: 1, query: searchValue, per_page: 50 },
+          });
+          setImages(result.data?.results);
+        }
+      } catch (e) {
+        setIsError(true);
+      } finally {
+        setIsLodaing(false);
+      }
+    })();
+  }, [searchValue]);
+
   return (
-    <div>
-      <h1 style={{ marginLeft: "10px" }}>Phonebook</h1>
-      <ContactForm onSubmit={addContact} />
-      <SearchBox onChange={updateSearchValue} value={searchValue} />
-      <ContactList contacts={filteredContacts} deleteContact={deleteContact} />
-    </div>
+    <>
+      {isLodaing && <Loader />}
+      {isError && <ErrorMessage />}
+      <SearchBar onSubmit={handleSumbit} />
+      {searchValue.length === 0 ? (
+        <Toaster
+          toastOptions={{
+            duration: 5000,
+            style: {
+              background: "#363636",
+              color: "#fff",
+            },
+          }}
+        />
+      ) : (
+        <ImageGallery images={images} />
+      )}
+    </>
   );
 };
 
