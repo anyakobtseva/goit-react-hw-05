@@ -1,8 +1,9 @@
+import * as css from "./SearchBar.module.css"
 const SearchBar = ({ onSubmit }) => {
   return (
     <>
-      <header>
-        <form
+      <header className={css.header}>
+        <form className={css.search}
           onSubmit={(event) => {
             event.preventDefault();
             event.nativeEvent.stopImmediatePropagation();
@@ -10,14 +11,14 @@ const SearchBar = ({ onSubmit }) => {
             event.target.reset();
           }}
         >
-          <input
+          <input className={css.textsearch}
             type="text"
             name="search"
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
           />
-          <button type="submit">Search</button>
+          <button className={css.btnsearch} type="submit">🔍</button>
         </form>
       </header>
     </>

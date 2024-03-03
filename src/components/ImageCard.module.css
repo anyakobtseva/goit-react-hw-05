@@ -1,7 +1,12 @@
 .card {
-  height: 150px;
+  display: flex;
+  align-content: stretch;
+  width:250px;
+  height:150px;
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 5px;
-  width: 250px;
+  object-fit: cover;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
