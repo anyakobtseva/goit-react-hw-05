@@ -1,10 +1,24 @@
+import Modal from "react-modal";
 import * as css from "./ImageModal.module.css";
 
-const ImageModal = ({ url }) => {
+Modal.setAppElement("#root");
+
+const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+    },
+  };
+
+const ImageModal = (props) => {
   return (
-    <div className={css.imageBox}>
-      <img className={css.image} src={url}></img>;
-    </div>
+    <Modal isOpen={props.modalOpen} onRequestClose={props.onRequestClose} style={customStyles}>
+      <img className={css.image} src={props.url}></img>
+    </Modal>
   );
 };
 

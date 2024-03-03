@@ -9,13 +9,12 @@ import Loader from "./Loader";
 import ImageGallery from "./ImageGallery";
 import toast, { Toaster } from "react-hot-toast";
 import LoadMoreBtn from "./LoadMoreBth";
-import Modal from "react-modal";
 import ImageModal from "./ImageModal";
 
 const API_KEY = import.meta.env.VITE_UNSPLASH_CLIENT_ID;
 
 axios.defaults.baseURL = "https://api.unsplash.com";
-Modal.setAppElement("#root");
+
 const getImages = async (page, query) => {
   return axios.get("/search/photos", {
     headers: {
@@ -43,6 +42,8 @@ const App = () => {
     setClickedImageUrl(url);
     setModalOpen(true);
   };
+
+  const closeModal = () => setModalOpen(false);
 
   const handleSumbit = (value) => {
     if (value.length === 0) {
@@ -89,9 +90,8 @@ const App = () => {
       ) : (
         <ImageGallery images={images} onClick={onImageClick} />
       )}
-      <Modal isOpen={modalOpen} onRequestClose={() => setModalOpen(false)}>
-        <ImageModal url={clickedImageUrl} />
-      </Modal>
+
+      <ImageModal url={clickedImageUrl} modalOpen={modalOpen} onRequestClose={closeModal}/>
       <Toaster
         toastOptions={{
           duration: 5000,
