@@ -1,9 +1,5 @@
 const ErrorMessage = () => {
-  return (
-    <>
-      <p>Error</p>
-    </>
-  )
-}
+  return <></>;
+};
 
 export default ErrorMessage;

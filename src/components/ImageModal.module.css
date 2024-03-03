@@ -1,18 +1,5 @@
-.imageBox {
-  display: flex;
-}
-
 .image {
   height: 500px;
   width: 1000px;
   object-fit: cover;
-}
-
-.modal {
-  position: absolute;
-  border-radius: 20px;
-  background-color: black;
-  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 40px 20px;
-  margin: auto;
 }

@@ -3,6 +3,7 @@
     height: 30px;
     width: 170px;
     border: 3px solid #449c5c;
+    margin-bottom: 20px;
 }
 .btnload {
     display: flex;

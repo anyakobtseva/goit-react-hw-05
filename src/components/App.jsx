@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import { useMemo } from "react";
 
@@ -20,7 +20,7 @@ const getImages = async (page, query) => {
     headers: {
       Authorization: `Client-ID ${API_KEY}`,
     },
-    params: { page: page, query: query, per_page: 50 },
+    params: { page: page, query: query, per_page: 20 },
   });
 };
 
@@ -38,6 +38,7 @@ const App = () => {
   const notify = (message) => toast(message);
 
   const previousSearch = useRef(searchValue);
+  const loadMoreRef = useRef();
 
   const onImageClick = (url) => {
     setIsLodaing(true);
@@ -48,6 +49,11 @@ const App = () => {
   const closeModal = () => {
     setModalOpen(false);
     setLoad(false);
+  };
+
+  const onImageLoad = () => {
+    setLoad(true);
+    setIsLodaing(false);
   };
 
   const handleSumbit = (value) => {
@@ -70,13 +76,27 @@ const App = () => {
     setCurrentPage(currentPage + 1);
   };
 
+  const scrollTo = () => {
+    if (!loadMoreRef.current) return;
+    if (currentPage > 1) {
+      const dims = loadMoreRef.current.getBoundingClientRect();
+      window.scrollTo({
+        top: dims.top + window.innerHeight * currentPage,
+        behavior: "smooth",
+      });
+    }
+  };
+
   useMemo(() => {
+    if (searchValue === "") return;
     (async () => {
       try {
         setIsLodaing(true);
         const result = await getImages(currentPage, searchValue);
         setIsMore(result.data?.total_pages > currentPage);
         setImages((prevImages) => [...prevImages, ...result.data.results]);
+        if (!result.data || result.data.results.length === 0)
+          throw Error("No images found! Try another search query.");
       } catch (e) {
         setIsError(true);
         notify(e.message);
@@ -85,6 +105,10 @@ const App = () => {
       }
     })();
   }, [searchValue, currentPage]);
+
+  useEffect(() => {
+    scrollTo();
+  });
 
   return (
     <>
@@ -101,10 +125,7 @@ const App = () => {
         modalOpen={modalOpen}
         onRequestClose={closeModal}
         didLoad={didLoad}
-        onLoad={() => {
-          setLoad(true);
-          setIsLodaing(false);
-        }}
+        onLoad={onImageLoad}
       />
       <Toaster
         position="top-right"
@@ -117,7 +138,7 @@ const App = () => {
           },
         }}
       />
-      {isMore && <LoadMoreBtn onclick={nextPage} />}
+      {isMore && <LoadMoreBtn onclick={nextPage} ref={loadMoreRef} />}
     </>
   );
 };
