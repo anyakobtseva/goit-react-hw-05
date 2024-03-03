@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid'
 import * as css from "./ImageGallery.module.css";
 import ImageCard from "./ImageCard";
 
@@ -9,7 +10,7 @@ const ImageGallery = ({ images, onClick }) => {
     }}>
       {images.map((image) => {
         return (
-          <li key={image.id} className={css.item}>
+          <li key={nanoid()} className={css.item}>
             <ImageCard smallUrl={image.urls.small} largeUrl={image.urls.full}/>
           </li>
         );

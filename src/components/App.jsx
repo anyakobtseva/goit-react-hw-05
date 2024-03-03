@@ -32,6 +32,7 @@ const App = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isMore, setIsMore] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [didLoad, setLoad] = useState(false);
   const [clickedImageUrl, setClickedImageUrl] = useState("");
 
   const notify = (message) => toast(message);
@@ -39,11 +40,15 @@ const App = () => {
   const previousSearch = useRef(searchValue);
 
   const onImageClick = (url) => {
+    setIsLodaing(true);
     setClickedImageUrl(url);
     setModalOpen(true);
   };
 
-  const closeModal = () => setModalOpen(false);
+  const closeModal = () => {
+    setModalOpen(false);
+    setLoad(false);
+  };
 
   const handleSumbit = (value) => {
     if (value.length === 0) {
@@ -91,7 +96,16 @@ const App = () => {
         <ImageGallery images={images} onClick={onImageClick} />
       )}
 
-      <ImageModal url={clickedImageUrl} modalOpen={modalOpen} onRequestClose={closeModal}/>
+      <ImageModal
+        url={clickedImageUrl}
+        modalOpen={modalOpen}
+        onRequestClose={closeModal}
+        didLoad={didLoad}
+        onLoad={() => {
+          setLoad(true);
+          setIsLodaing(false);
+        }}
+      />
       <Toaster
         toastOptions={{
           duration: 5000,
