@@ -1,14 +1,16 @@
 import * as css from "./ImageGallery.module.css";
 import ImageCard from "./ImageCard";
 
-const ImageGallery = ({ images }) => {
-  console.log("images", images);
+const ImageGallery = ({ images, onClick }) => {
   return (
-    <ul className={css.gallery}>
+    <ul className={css.gallery} onClick={(event) => {
+      event.nativeEvent.stopImmediatePropagation();
+      onClick(event.target.attributes.getNamedItem('data-url').value)
+    }}>
       {images.map((image) => {
         return (
           <li key={image.id} className={css.item}>
-            <ImageCard url={image.urls.small} />
+            <ImageCard smallUrl={image.urls.small} largeUrl={image.urls.full}/>
           </li>
         );
       })}
