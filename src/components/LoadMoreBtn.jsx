@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import * as css from "./LoadMoreBth.module.css";
+import * as css from "./LoadMoreBtn.module.css";
 const LoadMoreBtn = forwardRef(({ onclick }, ref) => {
   return (
     <div className={css.btnload}>

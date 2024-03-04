@@ -7,7 +7,7 @@ const SearchBar = ({ onSubmit }) => {
           onSubmit={(event) => {
             event.preventDefault();
             event.nativeEvent.stopImmediatePropagation();
-            onSubmit(event.target.elements.search.value);
+            onSubmit(event.target.elements.search.value.trim());
             event.target.reset();
           }}
         >

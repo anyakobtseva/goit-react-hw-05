@@ -8,7 +8,7 @@ import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loader";
 import ImageGallery from "./ImageGallery";
 import toast, { Toaster } from "react-hot-toast";
-import LoadMoreBtn from "./LoadMoreBth";
+import LoadMoreBtn from "./LoadMoreBtn";
 import ImageModal from "./ImageModal";
 
 const API_KEY = import.meta.env.VITE_UNSPLASH_CLIENT_ID;
@@ -87,7 +87,7 @@ const App = () => {
     }
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (searchValue === "") return;
     (async () => {
       try {
