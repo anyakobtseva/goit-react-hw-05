@@ -40,7 +40,12 @@ const ImageModal = (props) => {
       onRequestClose={props.onRequestClose}
       style={props.didLoad ? customStyles : hiddenStyle}
     >
-      <img className={css.image} src={props.url} onLoad={props.onLoad}></img>
+      <img
+        className={css.image}
+        src={props.url}
+        onLoad={props.onLoad}
+        alt={props.altDescription}
+      ></img>
     </Modal>
   );
 };

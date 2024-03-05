@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import axios from "axios";
-import { useMemo } from "react";
 
 import "./App.css";
 import SearchBar from "./SearchBar";
@@ -33,6 +32,7 @@ const App = () => {
   const [isMore, setIsMore] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [didLoad, setLoad] = useState(false);
+  const [altDescription, setAltDescription] = useState("");
   const [clickedImageUrl, setClickedImageUrl] = useState("");
 
   const notify = (message) => toast(message);
@@ -40,9 +40,10 @@ const App = () => {
   const previousSearch = useRef(searchValue);
   const loadMoreRef = useRef();
 
-  const onImageClick = (url) => {
+  const onImageClick = (url, description) => {
     setIsLodaing(true);
     setClickedImageUrl(url);
+    setAltDescription(description)
     setModalOpen(true);
   };
 
@@ -126,6 +127,7 @@ const App = () => {
         onRequestClose={closeModal}
         didLoad={didLoad}
         onLoad={onImageLoad}
+        altDescription={altDescription}
       />
       <Toaster
         position="top-right"

@@ -1,9 +1,9 @@
 import * as css from "./ImageCard.module.css"
 
-const ImageCard = ({ smallUrl, largeUrl }) => {
+const ImageCard = ({ smallUrl, largeUrl, description }) => {
   return (
     <>
-      <img src={smallUrl} alt="" data-url={largeUrl} className={css.card}/>
+      <img src={smallUrl} alt={description} data-url={largeUrl} className={css.card}/>
     </>
   );
 };
