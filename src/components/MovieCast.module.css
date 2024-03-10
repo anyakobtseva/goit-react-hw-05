@@ -1,0 +1,19 @@
+.infocast {
+  display: block;
+  padding-left: 20px;
+  font-size: 16px;
+}
+
+.cast {
+  height: 150px;
+  width: 100px;
+  margin: 0px;
+}
+
+.card {
+  margin: 0px;
+}
+.character {
+  padding-left: 20px;
+  margin: 0px;
+}

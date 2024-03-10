@@ -1,5 +1,5 @@
-import * as css from "./SearchBar.module.css"
-const SearchBar = ({ onSubmit }) => {
+import * as css from "./SearchBox.module.css"
+export default function SearchBox({ onSubmit }) {
   return (
     <>
       <header className={css.header}>
@@ -23,6 +23,4 @@ const SearchBar = ({ onSubmit }) => {
       </header>
     </>
   );
-};
-
-export default SearchBar;
+}

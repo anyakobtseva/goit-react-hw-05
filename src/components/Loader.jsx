@@ -4,10 +4,9 @@ import { Circles } from "react-loader-spinner";
 const Loader = () => {
   return (
     <Circles
-
       height="80"
       width="80"
-      color="#449c5c"
+      color="grey"
       ariaLabel="circles-loading"
       wrapperStyle={{}}
       wrapperClass={css.loader}

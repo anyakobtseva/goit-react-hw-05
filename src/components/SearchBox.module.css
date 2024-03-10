@@ -1,0 +1,29 @@
+.header {
+    display: flex;
+    justify-content: left;
+    height: 40px;
+    margin-bottom: 15px;
+    margin-left: 20px;
+  }
+  .search {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 1px solid;
+  }
+  .btnsearch {
+    border: none;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .textsearch {
+    border: none;
+    width: 250px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .textsearch:focus {
+    outline: none;
+  }

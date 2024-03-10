@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.cardWrapper {
+  border: 1px solid black;
+  border-radius: 4px;
+  height: 250px;
+  width: 210px;
+}
+
+.cardWrapper a {
+  text-decoration: none;
+}
+
+.movieName {
+  padding-left: 5px;
+  padding-bottom: 10px;
+  color: black;
+}
+
+.image {
+  padding-left: 5px;
+  padding-top: 10px;
+  height: 100px;
+  width: 200px;
+  object-fit: fit;
+}

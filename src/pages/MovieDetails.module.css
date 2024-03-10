@@ -1,0 +1,17 @@
+.poster {
+  height: 300px;
+  width: 400px;
+  object-fit: scale-down;
+}
+.list {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid black;
+}
+.infoadditional {
+  border-bottom: 1px solid black;
+  margin-bottom: 10px;
+}
+.details {
+    width: 600px;
+}

@@ -1,8 +1,0 @@
-.item {
-  list-style-type: none;
-}
-
-.gallery {
-  display: flex;
-  flex-wrap: wrap;
-}
