@@ -1,10 +1,10 @@
 import { Link, useLocation } from "react-router-dom";
-import css from "./MoviesList.module.css";
+import css from "./MovieList.module.css";
 import { nanoid } from "nanoid";
 import { IMAGE_BASE_URL, IMAGE_SIZE } from "../moviesApi";
 const fallbackImageUrl = new URL('../movie.png', import.meta.url).href;
 
-export default function MoviesList({ movies }) {
+export default function MovieList({ movies }) {
   const location = useLocation();
   return (
     <div className={css.container}>

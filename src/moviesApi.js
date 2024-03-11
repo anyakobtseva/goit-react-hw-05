@@ -1,8 +1,19 @@
 import axios from "axios";
-
+import toast from "react-hot-toast";
 const API_KEY = import.meta.env.VITE_TMDB_BEARER;
 
 axios.defaults.baseURL = "https://api.themoviedb.org/3";
+export const notify = (message) => toast(message);
+
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    notify(error.message);
+    return Promise.reject(error);
+  }
+);
 
 const HEADERS = {
   headers: {
@@ -37,10 +48,10 @@ export const getReviewsById = async (id) => {
 };
 
 export const getCastById = async (id) => {
-    return axios.get(`/movie/${id}/credits`, {
-      ...HEADERS,
-    });
-  };
+  return axios.get(`/movie/${id}/credits`, {
+    ...HEADERS,
+  });
+};
 
 export const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/";
 export const IMAGE_SIZE = "original";

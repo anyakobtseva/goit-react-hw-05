@@ -1,7 +1,7 @@
 import { useState, useEffect, lazy } from "react";
-import { getTrendingMovies } from "../moviesApi";
+import { getTrendingMovies, notify } from "../moviesApi";
 import Loader from "../components/Loader";
-const MoviesList = lazy(() => import('../components/MoviesList'))
+const MovieList = lazy(() => import("../components/MovieList"));
 
 export default function Home() {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -10,19 +10,16 @@ export default function Home() {
     (async () => {
       try {
         const response = (await getTrendingMovies()).data;
-        if (response.total_results != 0) {
-          setTrendingMovies((previousMovies) => {
-            if (
-              JSON.stringify(previousMovies) != JSON.stringify(response.results)
-            ) {
-              return response.results;
-            } else {
-              return previousMovies;
-            }
-          });
+        if (response.total_results === 0) {
+          throw Error("No trending movies today");
         }
+        setTrendingMovies((previousMovies) =>
+          JSON.stringify(previousMovies) != JSON.stringify(response.results)
+            ? response.results
+            : previousMovies
+        );
       } catch (e) {
-        console.log(e);
+        notify(e.message);
       }
     })();
   });
@@ -30,7 +27,7 @@ export default function Home() {
   return (
     <>
       {trendingMovies.length != 0 ? (
-        <MoviesList movies={trendingMovies} />
+        <MovieList movies={trendingMovies} />
       ) : (
         <Loader />
       )}

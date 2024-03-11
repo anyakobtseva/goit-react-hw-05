@@ -1,17 +1,21 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { nanoid } from "nanoid";
 import { getCastById, IMAGE_BASE_URL, IMAGE_SIZE } from "../moviesApi";
 import css from "./MovieCast.module.css";
 
-export default function Cast() {
+export default function MovieCast() {
   const { movieId } = useParams();
   const [cast, setCast] = useState([]);
 
-  useMemo(() => {
+  useEffect(() => {
     (async () => {
-      const response = (await getCastById(movieId)).data;
-      if (response) setCast(response.cast);
+      try {
+        const response = (await getCastById(movieId)).data;
+        if (response) setCast(response.cast);
+      } catch (e) {
+        console.log(e)
+      }
     })();
   }, [movieId]);
 

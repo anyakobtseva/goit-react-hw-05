@@ -1,13 +1,13 @@
 import { lazy, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchBox from "../components/SearchBox";
-import { getMovies } from "../moviesApi";
+import { getMovies, notify } from "../moviesApi";
 
-const MoviesList = lazy(() => import("../components/MoviesList"));
+const MovieList = lazy(() => import("../components/MovieList"));
 const LoadMoreBtn = lazy(() => import("../components/LoadMoreBtn"));
 
 export default function Movies() {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams("");
   const [movies, setMovies] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [isMore, setIsMore] = useState(false);
@@ -20,27 +20,25 @@ export default function Movies() {
         const response = (
           await getMovies(searchParams.get("name"), currentPage)
         ).data;
-        if (response.total_results != 0) {
-          setIsMore(response?.total_pages > currentPage);
-          setMovies((previousMovies) => {
-            if (
-              JSON.stringify(previousMovies) != JSON.stringify(response.results)
-            ) {
-              return [...previousMovies, ...response.results];
-            } else {
-              return previousMovies;
-            }
-          });
+
+        if (response.total_results === 0 && searchParams != "") {
+          throw Error("No movies found");
         }
+        setIsMore(response?.total_pages > currentPage);
+        setMovies((previousMovies) => {
+          return (JSON.stringify(previousMovies) != JSON.stringify(response.results))
+            ? [...previousMovies, ...response.results]
+            : previousMovies;
+        });
       } catch (e) {
-        console.log(e);
+        notify(e.message);
       }
     })();
   }, [searchParams, currentPage]);
 
   const updateQueryString = (name) => {
     const nextParams = name !== "" ? { name } : {};
-    setMovies([])
+    setMovies([]);
     setSearchParams(nextParams);
   };
 
@@ -50,7 +48,7 @@ export default function Movies() {
         value={searchParams.get("name")}
         onSubmit={updateQueryString}
       />
-      <MoviesList movies={movies} />
+      <MovieList movies={movies} />
       {isMore && <LoadMoreBtn onclick={nextPage} />}
     </main>
   );
